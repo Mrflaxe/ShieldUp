@@ -1,0 +1,5 @@
+name: ${project.name}
+main: ru.mrflaxe.shieldup.ShieldUp
+api-version: 1.16
+version: ${project.version}
+author: mrflaxe
