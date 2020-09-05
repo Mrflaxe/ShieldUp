@@ -2,6 +2,7 @@ package ru.mrflaxe.shieldup.provider;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -43,10 +44,13 @@ public class ShieldProvider {
 	// it's start in onEnable() method
 	public void run() {
 		Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-			players.stream()
+			ItemStack item = new ItemStack(Material.AIR);
+			List<Player> list = players.stream()
 					.filter(p -> !p.isBlocking())
-					.peek(p -> p.getInventory().setItemInOffHand(new ItemStack(Material.AIR)))
-					.forEach(p -> players.remove(p));
+					.peek(p -> p.getInventory().setItemInOffHand(item))
+					.collect(Collectors.toList());
+			
+			list.parallelStream().forEach(p -> players.remove(p));
 		}, 0, 100);
 	}
 }
